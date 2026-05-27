@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>75 Medium — My Glow Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #FEF7F5;
+      --bg2:       #FFFFFF;
+      --bg3:       #FDEEF2;
+      --rose:      #E8829A;
+      --rose2:     #D4607C;
+      --rose-light:#FFD6E2;
+      --rose-dim:  rgba(232,130,154,0.13);
+      --rose-mid:  rgba(232,130,154,0.35);
+      --gold:      #C9A06A;
+      --gold-dim:  rgba(201,160,106,0.15);
+      --cream:     #FDF3EE;
+      --border:    rgba(232,130,154,0.18);
+      --border2:   rgba(232,130,154,0.32);
+      --text:      #2A1520;
+      --text2:     #9A7080;
+      --text3:     #C9A8B2;
+      --card-r:    18px;
+      --sm-r:      12px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* subtle dot pattern */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(232,130,154,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .app { position: relative; z-index: 1; max-width: 760px; margin: 0 auto; padding: 0 20px 80px; }
+
+    /* ── HEADER ── */
+    header { padding: 36px 0 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .logo-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--rose); margin-bottom: 4px; }
+    .logo-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 11vw, 76px);
+      font-weight: 600;
+      line-height: 0.88;
+      color: var(--text);
+      letter-spacing: -.01em;
+    }
+    .logo-title em { color: var(--rose); font-style: italic; }
+    .header-right { display: flex; flex-direction: column; align-items: flex-end; padding-top: 6px; }
+    .day-pill {
+      background: var(--rose);
+      color: #fff;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 6px 18px 8px;
+      border-radius: 999px;
+      margin-bottom: 5px;
+    }
+    .day-pill-label { font-size: 11px; color: var(--text2); text-align: right; }
+
+    /* ── DAILY QUOTE BANNER ── */
+    .quote-banner {
+      background: linear-gradient(135deg, #FFE8EF 0%, #FDF0F7 100%);
+      border: 1px solid var(--rose-light);
+      border-radius: var(--card-r);
+      padding: 18px 22px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .quote-banner::before {
+      content: '"';
+      position: absolute;
+      right: 16px;
+      top: -8px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 100px;
+      color: var(--rose-light);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .quote-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text); line-height: 1.55; margin-bottom: 6px; max-width: 88%; }
+    .quote-author { font-size: 11px; color: var(--text2); letter-spacing: .05em; }
+
+    /* ── PROGRESS ── */
+    .progress-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); margin-bottom: 7px; }
+    .progress-row strong { color: var(--text); font-weight: 600; }
+    .prog-track { height: 5px; background: var(--rose-light); border-radius: 999px; overflow: hidden; margin-bottom: 24px; }
+    .prog-fill { height: 100%; background: linear-gradient(90deg, var(--rose), var(--rose2)); border-radius: 999px; transition: width .6s cubic-bezier(.4,0,.2,1); }
+
+    /* ── STAT STRIP ── */
+    .stat-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 28px; }
+    .stat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-r); padding: 16px; text-align: center; }
+    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 600; line-height: 1; color: var(--rose); }
+    .stat-label { font-size: 11px; color: var(--text2); margin-top: 4px; }
+
+    /* ── TABS ── */
+    .tab-bar { display: flex; gap: 6px; margin-bottom: 26px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px; }
+    .tab-bar::-webkit-scrollbar { display: none; }
+    .tab-btn { padding: 8px 18px; border-radius: 999px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; white-space: nowrap; transition: all .2s; flex-shrink: 0; }
+    .tab-btn:hover { color: var(--text); border-color: var(--rose); }
+    .tab-btn.active { background: var(--rose); color: #fff; border-color: var(--rose); font-weight: 600; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .section-label { font-size: 10px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; }
+
+    /* ── DAY GRID ── */
+    .day-grid { display: grid; grid-template-columns: repeat(15,1fr); gap: 5px; margin-bottom: 16px; }
+    @media(max-width:500px){ .day-grid { grid-template-columns: repeat(10,1fr); gap: 4px; } }
+    .day-cell { aspect-ratio: 1; border-radius: 7px; border: 1px solid var(--border); background: var(--bg2); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--text3); cursor: pointer; transition: all .15s; position: relative; font-weight: 500; }
+    .day-cell:hover { border-color: var(--rose); color: var(--rose); }
+    .day-cell.done { background: var(--rose); border-color: var(--rose); color: #fff; }
+    .day-cell.done::after { content: '✓'; font-size: 11px; font-weight: 700; }
+    .day-cell.done span { display: none; }
+    .day-cell.today { border: 1.5px solid var(--rose); color: var(--rose); background: var(--rose-dim); font-weight: 600; }
+    .day-cell.future { opacity: 0.38; cursor: default; }
+    .grid-hint { font-size: 12px; color: var(--text2); margin-bottom: 22px; }
+
+    /* ── STREAK ── */
+    .streak-banner { background: linear-gradient(135deg,#FFE8EF,#FEF3F7); border: 1px solid var(--rose-light); border-radius: var(--card-r); padding: 18px 22px; display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+    .streak-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 600; color: var(--rose); line-height: 1; }
+    .streak-label { font-size: 14px; font-weight: 500; color: var(--text); }
+    .streak-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+
+    /* ── RULE CARDS ── */
+    .rule-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-r); padding: 18px 20px; margin-bottom: 10px; display: flex; gap: 16px; align-items: flex-start; transition: border-color .2s, box-shadow .2s; }
+    .rule-card:hover { border-color: var(--rose-mid); box-shadow: 0 2px 16px rgba(232,130,154,0.1); }
+    .rule-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600; color: var(--rose-light); line-height: 1; min-width: 26px; padding-top: 2px; }
+    .rule-body { flex: 1; }
+    .rule-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .rule-detail { font-size: 13px; color: var(--text2); line-height: 1.65; }
+    .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 999px; margin-left: 7px; vertical-align: middle; }
+    .badge-rose { background: var(--rose-dim); color: var(--rose2); }
+    .badge-gold { background: var(--gold-dim); color: var(--gold); }
+
+    /* ── DAILY CHECKLIST ── */
+    .today-date { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .today-sub { font-size: 13px; color: var(--text2); margin-bottom: 22px; }
+    .check-item { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--sm-r); margin-bottom: 8px; cursor: pointer; transition: all .15s; }
+    .check-item:hover { border-color: var(--rose-mid); }
+    .check-item.done { background: #FFF0F4; border-color: var(--rose-light); }
+    .check-box { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; }
+    .check-item.done .check-box { background: var(--rose); border-color: var(--rose); color: #fff; }
+    .check-item.done .check-box::after { content: '✓'; font-size: 13px; font-weight: 700; }
+    .check-title { font-size: 14px; font-weight: 500; color: var(--text); }
+    .check-item.done .check-title { color: var(--text2); text-decoration: line-through; }
+    .check-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+    .checklist-summary { margin-top: 18px; padding: 16px 20px; background: linear-gradient(135deg,#FFE8EF,#FDF3F7); border: 1px solid var(--rose-light); border-radius: var(--card-r); display: flex; align-items: center; justify-content: space-between; }
+    .check-fraction { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 600; color: var(--rose); }
+    .check-label { font-size: 13px; color: var(--text2); }
+    .mini-dots { display: flex; gap: 6px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--rose-light); transition: background .2s; }
+    .dot.done { background: var(--rose); }
+    .miss-textarea { width: 100%; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--sm-r); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; padding: 14px 16px; resize: none; min-height: 88px; outline: none; line-height: 1.6; margin-top: 12px; }
+    .miss-textarea:focus { border-color: var(--rose); }
+    .miss-textarea::placeholder { color: var(--text3); }
+
+    /* ── MOTIVATION CARDS ── */
+    .motive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .motive-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-r); padding: 18px; }
+    .motive-card.accent { background: linear-gradient(135deg,#FFE8EF,#FEF0F5); border-color: var(--rose-light); }
+    .motive-emoji { font-size: 22px; margin-bottom: 8px; }
+    .motive-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+    .motive-text { font-size: 12px; color: var(--text2); line-height: 1.55; }
+
+    /* ── HABIT STACK ── */
+    .stack-timeline { position: relative; padding-left: 34px; }
+    .stack-timeline::before { content: ''; position: absolute; left: 12px; top: 14px; bottom: 14px; width: 1px; background: var(--rose-light); }
+    .stack-item { position: relative; margin-bottom: 18px; }
+    .stack-dot { position: absolute; left: -34px; top: 5px; width: 24px; height: 24px; border-radius: 50%; background: var(--bg3); border: 1.5px solid var(--rose-light); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: var(--rose); }
+    .stack-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--sm-r); padding: 14px 16px; }
+    .stack-time { font-size: 11px; font-weight: 600; color: var(--rose); letter-spacing: .08em; margin-bottom: 4px; text-transform: uppercase; }
+    .stack-action { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+    .stack-note { font-size: 12px; color: var(--text2); line-height: 1.5; }
+    .stack-section-divider { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text3); margin: 22px 0 14px; }
+
+    /* ── REMINDERS ── */
+    .reminder-list { display: flex; flex-direction: column; gap: 8px; }
+    .reminder-item { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--sm-r); padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; }
+    .reminder-item.highlighted { background: linear-gradient(135deg,#FFF0F4,#FEF8F5); border-color: var(--rose-light); }
+    .reminder-icon { font-size: 18px; flex-shrink: 0; padding-top: 1px; }
+    .reminder-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .reminder-text { font-size: 13px; color: var(--text2); line-height: 1.55; }
+
+    /* ── OVERVIEW ── */
+    .overview-hero { background: linear-gradient(135deg, #FFD6E2 0%, #FDE8F5 60%, #F9E8FF 100%); border-radius: var(--card-r); padding: 28px 24px; margin-bottom: 16px; position: relative; overflow: hidden; }
+    .overview-hero::after { content: '75'; position: absolute; right: -12px; bottom: -18px; font-family: 'Cormorant Garamond', serif; font-size: 150px; font-weight: 600; color: rgba(232,130,154,0.14); line-height: 1; pointer-events: none; }
+    .overview-hero h2 { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 600; color: var(--rose2); margin-bottom: 7px; }
+    .overview-hero p { font-size: 14px; color: #7A3050; line-height: 1.65; max-width: 380px; }
+
+    /* ── SETTINGS ── */
+    .settings-block { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--card-r); padding: 22px; margin-bottom: 12px; }
+    .settings-block label { font-size: 13px; color: var(--text2); display: block; margin-bottom: 7px; }
+    .settings-block input[type="date"] { width: 100%; max-width: 260px; background: var(--bg); border: 1px solid var(--border2); border-radius: var(--sm-r); color: var(--text); padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; display: block; }
+    .settings-block input[type="date"]:focus { border-color: var(--rose); }
+
+    /* ── BUTTONS ── */
+    .btn-primary { background: var(--rose); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; padding: 11px 26px; border-radius: 999px; border: none; cursor: pointer; transition: opacity .15s, transform .1s; margin-top: 14px; display: inline-block; }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-ghost { background: transparent; color: var(--text2); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 20px; border-radius: 999px; border: 1px solid var(--border2); cursor: pointer; transition: all .15s; margin-top: 14px; margin-left: 8px; }
+    .btn-ghost:hover { color: var(--text); border-color: var(--rose); }
+    .btn-danger { background: transparent; color: #E05555; font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 9px 20px; border-radius: 999px; border: 1px solid rgba(220,80,80,0.3); cursor: pointer; transition: all .15s; margin-top: 10px; }
+    .btn-danger:hover { background: rgba(220,80,80,0.07); }
+
+    .danger-zone { margin-top: 12px; padding: 20px 22px; border: 1px solid rgba(220,80,80,0.2); border-radius: var(--card-r); background: rgba(220,80,80,0.03); }
+    .danger-zone h3 { font-size: 13px; font-weight: 600; color: #C04040; margin-bottom: 6px; }
+    .danger-zone p { font-size: 12px; color: var(--text2); line-height: 1.55; }
+
+    /* ── MODAL ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(40,10,20,0.55); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--card-r); padding: 32px; max-width: 400px; width: 100%; box-shadow: 0 20px 60px rgba(232,130,154,0.2); }
+    .modal h2 { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 600; margin-bottom: 8px; color: var(--rose); }
+    .modal p { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 20px; }
+    .modal label { font-size: 13px; color: var(--text2); display: block; margin-bottom: 7px; }
+    .modal input[type="date"] { width: 100%; background: var(--bg); border: 1px solid var(--border2); border-radius: var(--sm-r); color: var(--text); padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 15px; margin-bottom: 6px; outline: none; }
+    .modal input[type="date"]:focus { border-color: var(--rose); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    .app { animation: fadeUp .5s ease both; }
+
+    /* milestone pop */
+    @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.18)} 100%{transform:scale(1)} }
+    .day-cell.done { animation: pop .25s ease; }
+
+    .campus-countdown { background: linear-gradient(135deg,#FFE8EF,#FEF0FA); border: 1px solid var(--rose-light); border-radius: var(--card-r); padding: 18px 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 18px; }
+    .campus-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 600; color: var(--rose); line-height: 1; }
+    .campus-txt strong { font-size: 15px; font-weight: 600; color: var(--text); display: block; }
+    .campus-txt span { font-size: 12px; color: var(--text2); }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div>
+      <div class="logo-eyebrow">my challenge</div>
+      <div class="logo-title">75 <em>Med</em></div>
+    </div>
+    <div class="header-right">
+      <div class="day-pill" id="current-day-num">—</div>
+      <div class="day-pill-label" id="current-day-label">set start date</div>
+    </div>
+  </header>
+
+  <div class="quote-banner" id="daily-quote">
+    <div class="quote-text">She came back to campus and nobody recognised the girl who left.</div>
+    <div class="quote-author">that's the goal.</div>
+  </div>
+
+  <div class="progress-row">
+    <span><strong id="prog-done">0</strong> days marked complete</span>
+    <span id="prog-pct">0% done</span>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+  <div class="stat-strip">
+    <div class="stat-card"><div class="stat-num" id="stat-done">0</div><div class="stat-label">days done</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-streak">0</div><div class="stat-label">streak 🔥</div></div>
+    <div class="stat-card"><div class="stat-num" id="stat-left">75</div><div class="stat-label">days left</div></div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchTab('tracker',this)">75-day grid</button>
+    <button class="tab-btn" onclick="switchTab('daily',this)">Today</button>
+    <button class="tab-btn" onclick="switchTab('rules',this)">6 rules</button>
+    <button class="tab-btn" onclick="switchTab('stack',this)">Habit stack</button>
+    <button class="tab-btn" onclick="switchTab('motivation',this)">Motivation</button>
+    <button class="tab-btn" onclick="switchTab('settings',this)">Settings</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="panel-overview" class="tab-panel active">
+    <div class="overview-hero">
+      <h2>Summer Glow-Up Starts Now ✨</h2>
+      <p>75 days of consistency. Full gym access, free time, a real deadline. You have every advantage. Use it — and walk back to campus as the girl everyone notices.</p>
+    </div>
+
+    <div id="start-cta" style="display:none; margin-bottom: 20px;">
+      <button class="btn-primary" onclick="document.getElementById('start-modal').classList.add('open')">Set my start date →</button>
+    </div>
+
+    <div id="campus-countdown-block" style="display:none">
+      <div class="campus-countdown">
+        <div class="campus-num" id="campus-days">—</div>
+        <div class="campus-txt"><strong>days until campus</strong><span>Set your return date in Settings to track this</span></div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top: 8px;">what is 75 medium?</div>
+    <div class="motive-grid">
+      <div class="motive-card accent">
+        <div class="motive-emoji">⚡</div>
+        <div class="motive-title">The original: 75 Hard</div>
+        <div class="motive-text">2 workouts/day, strict diet, gallon of water, 10 pages, outdoor walk. Miss one thing → restart Day 1. No exceptions, ever.</div>
+      </div>
+      <div class="motive-card accent">
+        <div class="motive-emoji">🎯</div>
+        <div class="motive-title">75 Medium (yours)</div>
+        <div class="motive-text">6 custom rules built for your goals. Miss one? Log it honestly, reflect for 60 seconds, and go harder tomorrow. No shame spiral.</div>
+      </div>
+      <div class="motive-card">
+        <div class="motive-emoji">🧠</div>
+        <div class="motive-title">Dopamine detox</div>
+        <div class="motive-text">No phone before 10am or after 9pm. 75 days rewires your baseline reward system more than any fast ever could.</div>
+      </div>
+      <div class="motive-card">
+        <div class="motive-emoji">💅</div>
+        <div class="motive-title">The identity shift</div>
+        <div class="motive-text">You're not losing weight. You're becoming the version of yourself who wakes up early, trains hard, and invests in her future.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 75-DAY GRID -->
+  <div id="panel-tracker" class="tab-panel">
+    <div class="streak-banner">
+      <div class="streak-num" id="streak-big">0</div>
+      <div><div class="streak-label">day streak 🔥</div><div class="streak-sub">Never miss twice. That's the rule.</div></div>
+    </div>
+    <div class="section-label">tap a day to mark it complete</div>
+    <div class="day-grid" id="day-grid"></div>
+    <div class="grid-hint" id="grid-hint">Set your start date in Settings to activate your grid.</div>
+  </div>
+
+  <!-- DAILY CHECKLIST -->
+  <div id="panel-daily" class="tab-panel">
+    <div class="today-date" id="today-date-label">Today</div>
+    <div class="today-sub" id="today-day-label">Complete all 6 to mark this day done automatically</div>
+
+    <div id="checklist-items">
+      <div class="check-item" data-rule="0" onclick="toggleRule(0)">
+        <div class="check-box"></div>
+        <div><div class="check-title">Workout done (45–75 min)</div><div class="check-sub">Gym strength or active recovery</div></div>
+      </div>
+      <div class="check-item" data-rule="1" onclick="toggleRule(1)">
+        <div class="check-box"></div>
+        <div><div class="check-title">3 liters of water</div><div class="check-sub">All finished before 9pm</div></div>
+      </div>
+      <div class="check-item" data-rule="2" onclick="toggleRule(2)">
+        <div class="check-box"></div>
+        <div><div class="check-title">Eating plan followed</div><div class="check-sub">High protein, whole foods, zero alcohol</div></div>
+      </div>
+      <div class="check-item" data-rule="3" onclick="toggleRule(3)">
+        <div class="check-box"></div>
+        <div><div class="check-title">10 pages read</div><div class="check-sub">Non-fiction. Kindle or physical — no phone.</div></div>
+      </div>
+      <div class="check-item" data-rule="4" onclick="toggleRule(4)">
+        <div class="check-box"></div>
+        <div><div class="check-title">No phone before 10am or after 9pm</div><div class="check-sub">Morning + evening windows protected</div></div>
+      </div>
+      <div class="check-item" data-rule="5" onclick="toggleRule(5)">
+        <div class="check-box"></div>
+        <div><div class="check-title">5-min evening journal done</div><div class="check-sub">3 wins + 1 thing learned + tomorrow's top 3</div></div>
+      </div>
+    </div>
+
+    <div class="checklist-summary">
+      <div><div class="check-fraction" id="check-fraction">0/6</div><div class="check-label">rules completed today</div></div>
+      <div class="mini-dots" id="mini-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+
+    <div style="margin-top: 22px;">
+      <div class="section-label">miss log — optional but powerful</div>
+      <textarea class="miss-textarea" id="miss-log" placeholder="Missed a rule? Write one honest sentence about why. Self-awareness is the whole point." onchange="saveMissLog()"></textarea>
+    </div>
+  </div>
+
+  <!-- 6 RULES -->
+  <div id="panel-rules" class="tab-panel">
+    <div class="section-label">your 6 rules</div>
+    <div class="rule-card">
+      <div class="rule-num">01</div>
+      <div class="rule-body">
+        <div class="rule-title">1 workout every day <span class="badge badge-rose">45–75 min</span></div>
+        <div class="rule-detail">Gym 5x/week (strength focus) + 2 active recovery days — walk, yoga, Pilates, swim. At least 3 lifting sessions per week. No full rest days. Active rest counts.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">02</div>
+      <div class="rule-body">
+        <div class="rule-title">3 liters of water daily <span class="badge badge-rose">before 9pm</span></div>
+        <div class="rule-detail">Not the gallon of 75 Hard — 3L is transformative for your skin, bloating, energy, and appetite. A marked water bottle makes this automatic.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">03</div>
+      <div class="rule-body">
+        <div class="rule-title">Follow your eating plan <span class="badge badge-rose">6 days clean</span></div>
+        <div class="rule-detail">High protein (0.8g per lb bodyweight), whole foods, slight deficit on rest days. 1 flexible meal Sunday — not a cheat day. Zero alcohol for the full 75 days.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">04</div>
+      <div class="rule-body">
+        <div class="rule-title">10 pages of reading daily <span class="badge badge-rose">non-fiction</span></div>
+        <div class="rule-detail">No phone reading. Kindle or physical book. Pick something genuinely interesting — personal finance, self-development, whatever excites you. 10 pages = ~15 mins.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">05</div>
+      <div class="rule-body">
+        <div class="rule-title">No phone before 10am or after 9pm <span class="badge badge-gold">dopamine rule</span></div>
+        <div class="rule-detail">Morning phone use hijacks your cortisol and kills focus for hours. Evening use destroys sleep quality, skin repair, and mental clarity. These windows are yours now.</div>
+      </div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-num">06</div>
+      <div class="rule-body">
+        <div class="rule-title">5-min evening journal + 1 thing learned <span class="badge badge-rose">learning rule</span></div>
+        <div class="rule-detail">Every night: 3 wins from today, 1 thing you genuinely learned, tomorrow's top 3 priorities. This closes your day intentionally instead of scrolling until you pass out.</div>
+      </div>
+    </div>
+    <div style="padding:16px 20px; background:var(--bg3); border:1px solid var(--rose-light); border-radius:var(--card-r); margin-top:8px;">
+      <div style="font-size:13px; font-weight:600; color:var(--text); margin-bottom:5px;">The 75 Medium miss rule</div>
+      <div style="font-size:13px; color:var(--text2); line-height:1.65;">Miss a rule → don't restart. Log it honestly, write one sentence about why, and go harder tomorrow. Consistency over perfection. The girl who shows up 70 out of 75 days still wins.</div>
+    </div>
+  </div>
+
+  <!-- HABIT STACK -->
+  <div id="panel-stack" class="tab-panel">
+    <div class="quote-banner" style="margin-bottom:24px;">
+      <div class="quote-text">"After [existing habit], I will [new habit]." Chain everything onto something you already do and it stops feeling like effort.</div>
+    </div>
+    <div class="stack-section-divider">🌸 Morning — no phone allowed</div>
+    <div class="stack-timeline">
+      <div class="stack-item"><div class="stack-dot">1</div><div class="stack-block"><div class="stack-time">Alarm goes off</div><div class="stack-action">Drink 500ml water immediately</div><div class="stack-note">Bottle pre-set on your nightstand the night before. Zero decision, zero friction, zero excuses.</div></div></div>
+      <div class="stack-item"><div class="stack-dot">2</div><div class="stack-block"><div class="stack-time">After water</div><div class="stack-action">Get dressed for gym — kit already laid out</div><div class="stack-note">You remove the decision that kills most morning workouts before they even start.</div></div></div>
+      <div class="stack-item"><div class="stack-dot">3</div><div class="stack-block"><div class="stack-time">Post-workout, coffee in hand</div><div class="stack-action">Read 10 pages — book lives on the counter</div><div class="stack-note">Post-workout calm + coffee = best reading window of the day. Don't ever hunt for your book.</div></div></div>
+    </div>
+    <div class="stack-section-divider">☀️ Midday</div>
+    <div class="stack-timeline">
+      <div class="stack-item"><div class="stack-dot">4</div><div class="stack-block"><div class="stack-time">Every meal prep</div><div class="stack-action">Check water level — refill to next mark</div><div class="stack-note">You're already in the kitchen. Make it a hydration checkpoint every single time.</div></div></div>
+      <div class="stack-item"><div class="stack-dot">5</div><div class="stack-block"><div class="stack-time">After lunch</div><div class="stack-action">20–30 min intentional learning</div><div class="stack-note">Personal finance podcast, online course, skill — feeds your "rich girl" goal. Post-lunch = low-focus time anyway.</div></div></div>
+    </div>
+    <div class="stack-section-divider">🌙 Evening — phone down at 9pm</div>
+    <div class="stack-timeline">
+      <div class="stack-item"><div class="stack-dot">6</div><div class="stack-block"><div class="stack-time">9pm — phone goes face-down</div><div class="stack-action">Open journal: 3 wins + 1 thing learned + tomorrow's top 3</div><div class="stack-note">5 minutes max. Putting the phone down IS the trigger. Don't overthink it.</div></div></div>
+      <div class="stack-item"><div class="stack-dot">7</div><div class="stack-block"><div class="stack-time">After journal</div><div class="stack-action">Lay out tomorrow's gym kit + fill morning water bottle</div><div class="stack-note">You are setting up tomorrow's 6am self before she even wakes up. Close the loop every single night.</div></div></div>
+    </div>
+  </div>
+
+  <!-- MOTIVATION -->
+  <div id="panel-motivation" class="tab-panel">
+    <div class="section-label">why you're doing this</div>
+
+    <div class="reminder-list">
+      <div class="reminder-item highlighted">
+        <div class="reminder-icon">🎓</div>
+        <div>
+          <div class="reminder-title">Walking back to campus different</div>
+          <div class="reminder-text">75 days from now you'll be stepping back onto campus with a body you built, a mind you sharpened, and energy nobody can take from you. That girl turns heads not because she tried to — but because she just did the work.</div>
+        </div>
+      </div>
+      <div class="reminder-item highlighted">
+        <div class="reminder-icon">💪</div>
+        <div>
+          <div class="reminder-title">The revenge body is really for you</div>
+          <div class="reminder-text">Forget everyone else. This is about walking into a room and feeling at home in your body. The confidence that comes from keeping promises to yourself is something no one can give you and no one can take away.</div>
+        </div>
+      </div>
+      <div class="reminder-item highlighted">
+        <div class="reminder-icon">💰</div>
+        <div>
+          <div class="reminder-title">Rich girl habits start now</div>
+          <div class="reminder-text">Rich women are disciplined women. They wake up early. They invest in themselves. They don't numb out on their phones for 6 hours. The financial reading and learning habit you build this summer is the foundation of who you'll be at 25, 30, 35.</div>
+        </div>
+      </div>
+      <div class="reminder-item">
+        <div class="reminder-icon">🧘</div>
+        <div>
+          <div class="reminder-title">Your nervous system is resetting</div>
+          <div class="reminder-text">The no-phone windows feel hard for the first 2 weeks because your dopamine system is genuinely addicted to the constant stimulation. Push through it. By week 4 you'll feel calmer, sharper, and more present than you have in years.</div>
+        </div>
+      </div>
+      <div class="reminder-item">
+        <div class="reminder-icon">✨</div>
+        <div>
+          <div class="reminder-title">The glow is real, not metaphorical</div>
+          <div class="reminder-text">3L of water daily + 7–8 hours sleep (the no-phone rule makes this happen) + clean eating = actual visible skin changes within 3–4 weeks. People will ask what you're doing differently. You won't have to say anything.</div>
+        </div>
+      </div>
+      <div class="reminder-item">
+        <div class="reminder-icon">🏆</div>
+        <div>
+          <div class="reminder-title">Discipline is the most attractive thing</div>
+          <div class="reminder-text">Not the body. Not the clothes. The way you carry yourself when you know you've earned it. When you've been waking up before everyone else and doing the work while they're still scrolling — that energy is unmistakable.</div>
+        </div>
+      </div>
+      <div class="reminder-item">
+        <div class="reminder-icon">📖</div>
+        <div>
+          <div class="reminder-title">The girl who reads is dangerous</div>
+          <div class="reminder-text">10 pages a day is 750 pages in 75 days — that's 2–3 entire books. Most college students don't read a single non-assigned book all year. The knowledge gap you build this summer compounds for the rest of your life.</div>
+        </div>
+      </div>
+      <div class="reminder-item">
+        <div class="reminder-icon">🌙</div>
+        <div>
+          <div class="reminder-title">Hard days are the point</div>
+          <div class="reminder-text">The days you don't feel like going to the gym but go anyway — those are the days the identity shift happens. You're not building a body. You're building the identity of someone who shows up for herself no matter what.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 22px;">
+      <div class="section-label">daily affirmations — read one when you need it</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+        <div style="background:var(--bg3); border:1px solid var(--rose-light); border-radius:var(--sm-r); padding:14px; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.5;">"She wasn't the same girl who left. Good."</div>
+        <div style="background:var(--bg3); border:1px solid var(--rose-light); border-radius:var(--sm-r); padding:14px; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.5;">"Soft life is earned, not stumbled into."</div>
+        <div style="background:var(--bg3); border:1px solid var(--rose-light); border-radius:var(--sm-r); padding:14px; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.5;">"Be the girl you were too lazy to be last semester."</div>
+        <div style="background:var(--bg3); border:1px solid var(--rose-light); border-radius:var(--sm-r); padding:14px; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.5;">"Your future self is watching. Make her proud."</div>
+        <div style="background:var(--bg3); border:1px solid var(--rose-light); border-radius:var(--sm-r); padding:14px; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.5;">"Main character energy isn't a vibe. It's a practice."</div>
+        <div style="background:var(--bg3); border:1px solid var(--rose-light); border-radius:var(--sm-r); padding:14px; font-family:'Cormorant Garamond',serif; font-size:15px; font-style:italic; color:var(--text2); line-height:1.5;">"Every workout is a vote for who you're becoming."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="panel-settings" class="tab-panel">
+    <div class="section-label">challenge settings</div>
+    <div class="settings-block">
+      <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:5px;">Challenge start date</div>
+      <div style="font-size:13px; color:var(--text2); margin-bottom:14px;">Set when your 75 days begins. This activates your grid and day counter.</div>
+      <label>Start date</label>
+      <input type="date" id="settings-start-date">
+      <button class="btn-primary" onclick="saveStartDate()">Save</button>
+    </div>
+
+    <div class="settings-block">
+      <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:5px;">Campus return date</div>
+      <div style="font-size:13px; color:var(--text2); margin-bottom:14px;">Your deadline. Seeing this countdown every day will hit different.</div>
+      <label>When do you go back?</label>
+      <input type="date" id="settings-campus-date">
+      <button class="btn-primary" onclick="saveCampusDate()">Save</button>
+    </div>
+
+    <div class="danger-zone">
+      <h3>Reset all challenge data</h3>
+      <p>Clears your grid, daily check-ins, miss logs, and dates. Cannot be undone.</p>
+      <button class="btn-danger" onclick="resetAll()">Reset everything</button>
+    </div>
+  </div>
+
+</div><!-- end .app -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="start-modal">
+  <div class="modal">
+    <h2>Let's go ✨</h2>
+    <p>Set your start date and the 75-day grid activates. If you've already started, enter the day you began.</p>
+    <label>Challenge start date</label>
+    <input type="date" id="modal-start-date">
+    <div style="margin-top:16px;">
+      <button class="btn-primary" onclick="saveStartDateFromModal()">Start my challenge</button>
+      <button class="btn-ghost" onclick="document.getElementById('start-modal').classList.remove('open')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var QUOTES = [
+  {text:"She came back to campus and nobody recognised the girl who left.", author:"that's the goal."},
+  {text:"Discipline is choosing between what you want now and what you want most.", author:""},
+  {text:"Every action you take is a vote for the type of person you wish to become.", author:"James Clear"},
+  {text:"Rich girl habits start with showing up when you don't feel like it.", author:""},
+  {text:"Be the girl you were too lazy to be last semester.", author:""},
+  {text:"The body you want is built in the hours no one sees.", author:""},
+  {text:"Soft life is earned, not stumbled into.", author:""},
+  {text:"She remembered who she was and the game changed.", author:""},
+  {text:"Main character energy is a practice, not a personality.", author:""},
+  {text:"Hard choices, easy life. Easy choices, hard life.", author:"Jerzy Gregorek"},
+  {text:"Your future self is watching. Make her proud.", author:""},
+  {text:"The glow isn't a filter. It's what consistency looks like from the outside.", author:""},
+  {text:"Do something today that next-semester you will thank you for.", author:""}
+];
+
+function getState(){ try{ return JSON.parse(localStorage.getItem('75med')||'{}'); }catch(e){ return {}; } }
+function setState(s){ localStorage.setItem('75med', JSON.stringify(s)); }
+function getTodayKey(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+function getDayNum(startDate){
+  if(!startDate) return null;
+  var start=new Date(startDate+'T00:00:00'), today=new Date(); today.setHours(0,0,0,0);
+  return Math.floor((today-start)/86400000)+1;
+}
+
+function calcStreak(completed, startDate){
+  if(!startDate) return 0;
+  var streak=0, today=new Date(); today.setHours(0,0,0,0);
+  for(var i=0;i<75;i++){
+    var d=new Date(today); d.setDate(d.getDate()-i);
+    var k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    if(completed&&completed[k]) streak++; else break;
+  }
+  return streak;
+}
+
+function campusDaysLeft(campusDate){
+  if(!campusDate) return null;
+  var campus=new Date(campusDate+'T00:00:00'), today=new Date(); today.setHours(0,0,0,0);
+  var diff=Math.ceil((campus-today)/86400000);
+  return diff>0?diff:0;
+}
+
+function updateHeader(){
+  var s=getState();
+  var n=getDayNum(s.startDate);
+  if(n!==null&&n>=1&&n<=75){ document.getElementById('current-day-num').textContent=n; document.getElementById('current-day-label').textContent='of 75'; }
+  else if(n!==null&&n>75){ document.getElementById('current-day-num').textContent='✓'; document.getElementById('current-day-label').textContent='challenge complete!'; }
+  else{ document.getElementById('current-day-num').textContent='—'; document.getElementById('current-day-label').textContent='set start date'; }
+
+  var done=s.completedDays?Object.values(s.completedDays).filter(Boolean).length:0;
+  var pct=Math.round(done/75*100);
+  document.getElementById('prog-done').textContent=done;
+  document.getElementById('prog-pct').textContent=pct+'% done';
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('stat-done').textContent=done;
+  document.getElementById('stat-left').textContent=Math.max(0,75-done);
+  var streak=calcStreak(s.completedDays,s.startDate);
+  document.getElementById('stat-streak').textContent=streak;
+  document.getElementById('streak-big').textContent=streak;
+
+  // campus countdown
+  if(s.campusDate){
+    var days=campusDaysLeft(s.campusDate);
+    document.getElementById('campus-days').textContent=days;
+    document.getElementById('campus-countdown-block').style.display='block';
+    document.querySelector('#campus-countdown-block .campus-txt span').textContent=days+' days to walk back onto that campus.';
+  }
+}
+
+function buildGrid(){
+  var grid=document.getElementById('day-grid'), hint=document.getElementById('grid-hint');
+  grid.innerHTML='';
+  var s=getState(), start=s.startDate, completed=s.completedDays||{};
+  if(!start){ hint.textContent='Set your start date in Settings to activate your grid.'; for(var i=1;i<=75;i++){ var c=document.createElement('div'); c.className='day-cell future'; c.innerHTML='<span>'+i+'</span>'; grid.appendChild(c); } return; }
+  hint.textContent='Tap any completed day to toggle. Today is highlighted in pink.';
+  var startD=new Date(start+'T00:00:00'), today=new Date(); today.setHours(0,0,0,0);
+  for(var i=1;i<=75;i++){
+    var day=new Date(startD); day.setDate(day.getDate()+(i-1));
+    var k=day.getFullYear()+'-'+String(day.getMonth()+1).padStart(2,'0')+'-'+String(day.getDate()).padStart(2,'0');
+    var isFuture=day>today, isToday=day.getTime()===today.getTime(), isDone=completed[k];
+    var cell=document.createElement('div');
+    var cls='day-cell'+(isDone?' done':isToday?' today':isFuture?' future':'');
+    cell.className=cls; cell.innerHTML='<span>'+i+'</span>';
+    (function(key,fut){ if(!fut) cell.onclick=function(){ toggleDay(key); }; })(k,isFuture);
+    grid.appendChild(cell);
+  }
+}
+
+function toggleDay(key){
+  var s=getState(); if(!s.completedDays) s.completedDays={};
+  s.completedDays[key]=!s.completedDays[key]; setState(s); buildGrid(); updateHeader();
+}
+
+function loadDailyChecklist(){
+  var today=new Date();
+  document.getElementById('today-date-label').textContent=today.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  var s=getState(), n=getDayNum(s.startDate);
+  document.getElementById('today-day-label').textContent=n&&n>=1&&n<=75?'Day '+n+' of 75 — complete all 6 rules':'Complete all 6 rules to mark this day done automatically';
+  var k=getTodayKey(), checks=(s.dailyChecks&&s.dailyChecks[k])||[false,false,false,false,false,false];
+  document.querySelectorAll('.check-item').forEach(function(el,i){ el.classList[checks[i]?'add':'remove']('done'); });
+  var missLog=(s.missLogs&&s.missLogs[k])||'';
+  document.getElementById('miss-log').value=missLog;
+  updateChecklistUI(checks);
+}
+
+function toggleRule(idx){
+  var s=getState(), k=getTodayKey();
+  if(!s.dailyChecks) s.dailyChecks={};
+  if(!s.dailyChecks[k]) s.dailyChecks[k]=[false,false,false,false,false,false];
+  s.dailyChecks[k][idx]=!s.dailyChecks[k][idx]; setState(s); loadDailyChecklist();
+  if(s.dailyChecks[k].every(Boolean)){ if(!s.completedDays) s.completedDays={}; s.completedDays[k]=true; setState(s); updateHeader(); buildGrid(); }
+}
+
+function updateChecklistUI(checks){
+  var done=checks.filter(Boolean).length;
+  document.getElementById('check-fraction').textContent=done+'/6';
+  document.querySelectorAll('#mini-dots .dot').forEach(function(d,i){ d.classList[checks[i]?'add':'remove']('done'); });
+}
+
+function saveMissLog(){ var s=getState(), k=getTodayKey(); if(!s.missLogs) s.missLogs={}; s.missLogs[k]=document.getElementById('miss-log').value; setState(s); }
+
+function saveStartDate(){
+  var v=document.getElementById('settings-start-date').value; if(!v) return;
+  var s=getState(); s.startDate=v; setState(s); buildGrid(); updateHeader();
+  document.getElementById('start-cta').style.display='none';
+}
+
+function saveCampusDate(){
+  var v=document.getElementById('settings-campus-date').value; if(!v) return;
+  var s=getState(); s.campusDate=v; setState(s); updateHeader();
+}
+
+function saveStartDateFromModal(){
+  var v=document.getElementById('modal-start-date').value; if(!v) return;
+  var s=getState(); s.startDate=v; setState(s);
+  document.getElementById('start-modal').classList.remove('open');
+  document.getElementById('settings-start-date').value=v;
+  buildGrid(); updateHeader(); document.getElementById('start-cta').style.display='none';
+}
+
+function resetAll(){
+  if(!confirm('Delete all challenge data? This cannot be undone.')) return;
+  localStorage.removeItem('75med');
+  document.getElementById('settings-start-date').value='';
+  document.getElementById('settings-campus-date').value='';
+  buildGrid(); updateHeader(); loadDailyChecklist();
+  document.getElementById('start-cta').style.display='block';
+  document.getElementById('campus-countdown-block').style.display='none';
+}
+
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('panel-'+name).classList.add('active'); btn.classList.add('active');
+  if(name==='daily') loadDailyChecklist();
+}
+
+function setDailyQuote(){
+  var q=QUOTES[new Date().getDate()%QUOTES.length];
+  document.getElementById('daily-quote').innerHTML='<div class="quote-text">'+q.text+'</div>'+(q.author?'<div class="quote-author">— '+q.author+'</div>':'');
+}
+
+(function init(){
+  var s=getState(), today=new Date();
+  var todayStr=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  if(s.startDate){ document.getElementById('settings-start-date').value=s.startDate; }
+  else{ document.getElementById('start-cta').style.display='block'; document.getElementById('modal-start-date').value=todayStr; document.getElementById('settings-start-date').value=todayStr; }
+  if(s.campusDate) document.getElementById('settings-campus-date').value=s.campusDate;
+  setDailyQuote(); buildGrid(); updateHeader(); loadDailyChecklist();
+})();
+</script>
+</body>
+</html>
